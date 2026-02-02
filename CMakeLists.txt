@@ -1,10 +1,16 @@
     cmake_minimum_required(VERSION 3.22)
 
-    set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
+    execute_process(
+    COMMAND git rev-list --count HEAD
+    OUTPUT_VARIABLE PATCH_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+
     set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
     project(EXANTE_Report_Analyzer VERSION ${PROJECT_VERSION})
     set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;MinSizeRel" CACHE STRING "" FORCE)
+
+    message(STATUS "Building ${PROJECT_NAME} v${PROJECT_VERSION}")
 
     if(MINGW)
         link_libraries(ws2_32 wsock32)
