@@ -30,3 +30,24 @@
 *.exe
 *.out
 *.app
+
+# IDE specific
+cmake-build-debug/
+cmake-build-release/
+Build/
+build/
+testing/
+Testing/
+*.DS_Store
+.vscode/
+.vs/
+.idea/
+
+#misc
+*.tsv
+
+#Docker
+docker*
+
+#jsons
+/cmakeu*.json
