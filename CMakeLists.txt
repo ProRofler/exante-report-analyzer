@@ -12,6 +12,11 @@
 
     message(STATUS "Building ${PROJECT_NAME} v${PROJECT_VERSION}")
 
+    configure_file(
+    ${CMAKE_SOURCE_DIR}/src/report.csv
+    ${CMAKE_BINARY_DIR}/bin/report.csv
+    COPYONLY)
+
     if(MINGW)
         link_libraries(ws2_32 wsock32)
     endif()

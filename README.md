@@ -51,6 +51,7 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 - [ ] Input report path
 - [ ] Output format selection
 - [ ] Enable / disable specific metrics
+- [ ] Wide encoding support
 
 ---
 
