@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <chrono>
 
 #include "instrument.h"
+#include "lzprofiler.h"
 
 int main() {
     std::ifstream report("report.csv");
@@ -20,14 +20,11 @@ int main() {
 
     instrument inst("test", "test");
 
-    auto start = std::chrono::steady_clock::now();
+    START_PROFILE(reading_duration);
     while (std::getline(report, line)) {
-                //
+        //
     }
-    auto stop = std::chrono::steady_clock::now();
-
-    auto reading_duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    END_PROFILE(reading_duration);
 
     std::cout << report_out                                     //
               << '\n'                                           //
