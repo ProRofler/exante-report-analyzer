@@ -12,11 +12,6 @@
 
     message(STATUS "Building ${PROJECT_NAME} v${PROJECT_VERSION}")
 
-    configure_file(
-    ${CMAKE_SOURCE_DIR}/src/report.csv
-    ${CMAKE_BINARY_DIR}/bin/report.csv
-    COPYONLY)
-
     if(MINGW)
         link_libraries(ws2_32 wsock32)
     endif()
@@ -32,6 +27,13 @@
     else()
         message(FATAL_ERROR "No source files (*.cpp, *.cc, *.cxx) found in 'src/' — ensure your sources are placed under src/ or update CMakeLists.txt.")
     endif()
+
+    add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_SOURCE_DIR}/src/report.csv
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/report.csv
+    )
 
     # Ensure the project's include directory is visible to the target
     target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)

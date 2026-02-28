@@ -2,7 +2,7 @@
 #include <fstream>
 
 #include "instrument.h"
-#include "lzprofiler.h"
+#include "lazyprofiler.h"
 
 int main() {
     std::ifstream report("report.csv");
