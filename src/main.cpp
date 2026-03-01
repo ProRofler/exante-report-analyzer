@@ -18,7 +18,7 @@ int main() {
 
     std::string report_out;
 
-    instrument inst("test", "test");
+    account_data inst("test");
 
     START_PROFILE(reading_duration);
     while (std::getline(report, line)) {
