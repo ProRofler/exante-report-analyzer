@@ -1,24 +1,28 @@
 #include <iostream>
 #include <fstream>
 
-#include "instrument.h"
+#include "account.h"
 #include "lazyprofiler.h"
 
-int main() {
-    std::ifstream report("report.csv");
+int main(int argc, char* argv[]) {
+    std::string filename{"report.csv"};
+    if (argc > 1) filename = argv[1];
+    std::ifstream report(filename);
 
-    if (!report.is_open()) {
-        std::cout << "Couldn't open the report file :(" << std::endl;
+    if (report.is_open()) {
+        std::cout << "************************************** \n"
+                  << "Parsing file: " << filename << '\n'
+                  << "************************************** \n\n";
     } else {
-        std::cout << "Got the report file :)\n\n"
-                     "************************************** \n\n";
+        std::cout << "Couldn't open the report file :(" << std::endl;
+        return 1;
     }
 
     std::string line;
 
     std::string report_out;
 
-    account_data inst("test");
+    account inst("test");
 
     START_PROFILE(reading_duration);
     while (std::getline(report, line)) {

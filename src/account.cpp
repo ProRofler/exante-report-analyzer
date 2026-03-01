@@ -1,9 +1,9 @@
-#include "instrument.h"
+#include "account.h"
 
-account_data::account_data(const std::string& account) : account_id(account) {}
+account::account(const std::string& account) : account_id(account) {}
 
-void account_data::add_ticker(const std::string& ticker,
-                              const instrument_data& data) {
+void account::add_ticker(const std::string& ticker,
+                              const ticker_data& data) {
     auto [it, inserted] = instruments.try_emplace(ticker, data);
 
     if (inserted) {
