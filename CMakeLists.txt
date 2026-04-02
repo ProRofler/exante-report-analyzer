@@ -35,6 +35,14 @@
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/report.csv
     )
 
+    add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_SOURCE_DIR}/src/test_report.csv
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/test_report.csv
+    )
+
+
     # Ensure the project's include directory is visible to the target
     target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
