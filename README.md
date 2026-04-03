@@ -5,27 +5,26 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 ---
 
 ## Goals
-- [ ] Parse EXANTE-generated reports
-- [ ] Normalize transaction data into internal structures
+- [x] Parse EXANTE-generated reports
+- [x] Normalize transaction data into internal structures
 - [ ] Analyze trading performance
-- [ ] Generate human-readable summaries
-- [ ] Keep the system fast, deterministic, and dependency-light
+- [x] Generate human-readable summaries
+- [x] Keep the system fast, deterministic, and dependency-light
 
 ---
 
 ## Core Features
-- [ ] Report parser (CSV)
-- [ ] Trade aggregation by instrument
-- [ ] Trades sorted from best to worst
-- [ ] Most frequent instruments
-- [ ] Trade count statistics
+- [x] Report parser (CSV)
+- [x]Trade aggregation by instrument
+- [x] Trades sorted from best to worst
+- [x] Trade count statistics
 - [ ] Win / loss ratio
 - [ ] Average trade PnL
 
 ---
 
 ## Analysis & Metrics
-- [ ] Per-instrument PnL
+- [x] Per-instrument PnL
 - [ ] Cumulative PnL
 
 ---
@@ -48,7 +47,7 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 ---
 
 ## CLI
-- [ ] Input report path
+- [x] Input report path
 - [ ] Output format selection
 - [ ] Enable / disable specific metrics
 - [ ] Wide encoding support
@@ -70,9 +69,9 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 ---
 
 ## Build
-- [ ] CMake build system
-- [ ] Cross-platform (Linux / Windows)
-- [ ] Compiler warnings treated as errors
+- [x] CMake build system
+- [x] Cross-platform (Linux / Windows)
+- [x] Compiler warnings treated as errors
 
 ---
 

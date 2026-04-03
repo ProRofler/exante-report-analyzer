@@ -59,11 +59,10 @@ void account::print() const {
 
     constexpr int col_trades = 8;
     constexpr int col_pl = 10;
-    constexpr int col_diff = 7;
     constexpr int col_comm = 12;
 
     const int total_width = static_cast<int>(col_ticker) + col_trades + col_pl +
-                            col_diff + col_comm + 16;
+                            col_comm + 16;
 
     auto divider = [&](char c) {
         std::cout << std::string(total_width, c) << '\n';
@@ -75,24 +74,17 @@ void account::print() const {
 
     std::cout << std::left << std::setw(static_cast<int>(col_ticker))
               << "Ticker" << std::right << std::setw(col_trades) << "Trades"
-              << std::setw(col_pl) << "P/L" << std::setw(col_diff) << "Diff"
-              << std::setw(col_comm) << "Commission" << '\n';
+              << std::setw(col_pl) << "P/L EUR"
+              << std::setw(col_comm) << " Commission EUR" << '\n';
     divider('-');
 
-    bool in_open_section = false;
     std::cout << std::fixed << std::setprecision(2);
     for (const auto& [ticker, data] : sorted) {
-        if (!in_open_section && data->diff != 0) {
-            divider('-');
-            std::cout << "  (open positions)\n";
-            divider('-');
-            in_open_section = true;
-        }
+        if (data->diff != 0) break;  // skip open positions
         std::cout << std::left << std::setw(static_cast<int>(col_ticker))
                   << *ticker << std::right << std::setw(col_trades)
                   << data->trades << std::setw(col_pl) << data->pl
-                  << std::setw(col_diff) << data->diff << std::setw(col_comm)
-                  << data->commission << '\n';
+                  << std::setw(col_comm) << data->commission << '\n';
     }
     divider('=');
 }

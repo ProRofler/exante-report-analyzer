@@ -20,6 +20,15 @@ static std::vector<std::string> split_tsv(const std::string& line) {
     return fields;
 }
 
+// Normalizes "SPY.CBOE.20251219.500.C" -> "SPY.CBOE"
+static std::string normalize_symbol(const std::string& symbol) {
+    size_t first_dot = symbol.find('.');
+    if (first_dot == std::string::npos) return symbol;
+    size_t second_dot = symbol.find('.', first_dot + 1);
+    if (second_dot == std::string::npos) return symbol;
+    return symbol.substr(0, second_dot);
+}
+
 int main(int argc, char* argv[]) {
     std::string filename{"report.csv"};
     if (argc > 1) filename = argv[1];
@@ -50,13 +59,13 @@ int main(int argc, char* argv[]) {
         auto fields = split_tsv(line);
         if (fields.size() < 9) continue;
 
-        const std::string& op_type = fields[4];  // Operation Type
-        const std::string& symbol = fields[2];   // Symbol ID
+        const std::string& op_type = fields[4];                          // Operation Type
+        const std::string symbol   = normalize_symbol(fields[2]);        // Symbol ID (normalized)
 
         if (symbol == "None") continue;
 
         if (op_type == "TRADE") {
-            const std::string& asset = fields[7];  // Asset
+            const std::string asset = normalize_symbol(fields[7]);  // normalize for option comparison
             if (asset == symbol) {
                 // Security leg: Sum is the share count (signed), don't count as a separate trade
                 const int diff = static_cast<int>(std::stof(fields[6]));
