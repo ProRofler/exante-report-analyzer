@@ -15,7 +15,7 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 
 ## Core Features
 - [x] Report parser (CSV)
-- [x]Trade aggregation by instrument
+- [x] Trade aggregation by instrument
 - [x] Trades sorted from best to worst
 - [x] Trade count statistics
 - [ ] Win / loss ratio
@@ -25,13 +25,13 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 
 ## Analysis & Metrics
 - [x] Per-instrument PnL
-- [ ] Cumulative PnL
+- [x] Cumulative PnL
 
 ---
 
 ## Output
-- [ ] Console summary report
-- [ ] Sorted tables (best → worst trades)
+- [x] Console summary report
+- [x] Sorted tables (best → worst trades)
 - [ ] Configurable output verbosity
 - [ ] Export summary to file (txt / json)
 
@@ -40,8 +40,8 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 ## Architecture
 - [ ] Separate parsing from analytics
 - [ ] No hidden state / deterministic processing
-- [ ] No heap allocations in hot paths (where possible)
-- [ ] STL-first, minimal third-party dependencies
+- [x] No heap allocations in hot paths (where possible)
+- [x] STL-first, minimal third-party dependencies
 - [ ] Easily extensible metrics system
 
 ---

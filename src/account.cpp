@@ -34,6 +34,11 @@ void account::add_commission(const std::string& ticker, float commission) {
     it->second.commission += commission;
 }
 
+void account::record_trade_day(const std::string& date) {
+    // date is "YYYY-MM-DD HH:MM:SS", take only the date part
+    if (traded_dates.emplace(date.substr(0, 10)).second) ++trading_days;
+}
+
 void account::print() const {
     // Build sorted view: closed positions by pl desc, then open positions by pl
     // desc
@@ -61,8 +66,8 @@ void account::print() const {
     constexpr int col_pl = 10;
     constexpr int col_comm = 12;
 
-    const int total_width = static_cast<int>(col_ticker) + col_trades + col_pl +
-                            col_comm + 16;
+    const int total_width =
+        static_cast<int>(col_ticker) + col_trades + col_pl + col_comm + 16;
 
     auto divider = [&](char c) {
         std::cout << std::string(total_width, c) << '\n';
@@ -70,21 +75,28 @@ void account::print() const {
 
     divider('=');
     std::cout << "  Account: " << account_id << '\n';
+    std::cout << "  Total trading days: " << trading_days << '\n';
     divider('=');
 
     std::cout << std::left << std::setw(static_cast<int>(col_ticker))
               << "Ticker" << std::right << std::setw(col_trades) << "Trades"
-              << std::setw(col_pl) << "P/L EUR"
-              << std::setw(col_comm) << " Commission EUR" << '\n';
+              << std::setw(col_pl) << "P/L EUR" << std::setw(col_comm)
+              << " Commission EUR" << '\n';
     divider('-');
 
     std::cout << std::fixed << std::setprecision(2);
+    float total_pl = 0.f, total_commission = 0.f;
     for (const auto& [ticker, data] : sorted) {
         if (data->diff != 0) break;  // skip open positions
         std::cout << std::left << std::setw(static_cast<int>(col_ticker))
                   << *ticker << std::right << std::setw(col_trades)
                   << data->trades << std::setw(col_pl) << data->pl
                   << std::setw(col_comm) << data->commission << '\n';
+        total_pl += data->pl;
+        total_commission += data->commission;
     }
+    std::cout << std::left << std::setw(static_cast<int>(col_ticker)) << "TOTAL"
+              << std::right << std::setw(col_trades) << "" << std::setw(col_pl)
+              << total_pl << std::setw(col_comm) << total_commission << '\n';
     divider('=');
 }

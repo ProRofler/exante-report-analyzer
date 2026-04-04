@@ -65,6 +65,7 @@ int main(int argc, char* argv[]) {
         if (symbol == "None") continue;
 
         if (op_type == "TRADE") {
+            inst.record_trade_day(fields[5]);  // "When" field
             const std::string asset = normalize_symbol(fields[7]);  // normalize for option comparison
             if (asset == symbol) {
                 // Security leg: Sum is the share count (signed), don't count as a separate trade
