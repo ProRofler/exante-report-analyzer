@@ -2,6 +2,7 @@
 
 #include <iomanip>
 #include <sstream>
+#include "lazyprofiler.h"
 
 account::account(const std::string& account) : account_id(account) {}
 
@@ -40,8 +41,7 @@ void account::record_trade_day(const std::string& date) {
 }
 
 void account::print() const {
-    // Build sorted view: closed positions by pl desc, then open positions by pl
-    // desc
+    START_PROFILE(vec_copy);
     using pair_t = std::pair<const std::string*, const ticker_data*>;
     std::vector<pair_t> sorted;
     sorted.reserve(instruments.size());
@@ -55,19 +55,23 @@ void account::print() const {
                   if (a_open != b_open) return b_open;  // closed before open
                   return a.second->pl > b.second->pl;   // higher pl first
               });
+    END_PROFILE(vec_copy);
+
+    std::cout << "Vector copy\\sort time: " << vec_copy << '\n';
 
     // Determine column widths dynamically
-    size_t col_ticker = 6;  // "Ticker"
+    unsigned col_ticker = 6;  // "Ticker"
     for (const auto& [ticker, _] : sorted)
-        col_ticker = std::max(col_ticker, ticker->size());
+        col_ticker =
+            std::max(col_ticker, static_cast<unsigned>(ticker->size()) - 2);
     col_ticker += 2;
 
-    constexpr int col_trades = 8;
-    constexpr int col_pl = 10;
-    constexpr int col_comm = 12;
+    constexpr unsigned col_trades = 8;
+    constexpr unsigned col_pl = 10;
+    constexpr unsigned col_comm = 12;
 
-    const int total_width =
-        static_cast<int>(col_ticker) + col_trades + col_pl + col_comm + 16;
+    const unsigned total_width =
+        col_ticker + col_trades + col_pl + col_comm + 16;
 
     auto divider = [&](char c) {
         std::cout << std::string(total_width, c) << '\n';

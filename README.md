@@ -63,7 +63,7 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 
 ## Performance
 - [ ] Handle large reports efficiently
-- [ ] Avoid unnecessary copies
+- [x] Avoid unnecessary copies
 - [ ] Profiling and optimization pass
 
 ---
