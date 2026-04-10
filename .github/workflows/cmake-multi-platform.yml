@@ -83,7 +83,6 @@ jobs:
         name: EXANTE_Report_Analyzer-linux-${{ github.run_number }}
         path: ${{ steps.strings.outputs.build-output-dir }}/bin/EXANTE_Report_Analyzer
 
-jobs:
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
