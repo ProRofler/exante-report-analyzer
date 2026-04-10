@@ -40,6 +40,9 @@ int main(int argc, char* argv[]) {
                   << "************************************** \n\n";
     } else {
         std::cout << "Couldn't open the report file :(" << std::endl;
+
+        std::cout << "\nPress Enter to exit...";
+        std::cin.get();
         return 1;
     }
 
@@ -59,20 +62,24 @@ int main(int argc, char* argv[]) {
         auto fields = split_tsv(line);
         if (fields.size() < 9) continue;
 
-        const std::string& op_type = fields[4];                          // Operation Type
-        const std::string symbol   = normalize_symbol(fields[2]);        // Symbol ID (normalized)
+        const std::string& op_type = fields[4];  // Operation Type
+        const std::string symbol =
+            normalize_symbol(fields[2]);  // Symbol ID (normalized)
 
         if (symbol == "None") continue;
 
         if (op_type == "TRADE") {
             inst.record_trade_day(fields[5]);  // "When" field
-            const std::string asset = normalize_symbol(fields[7]);  // normalize for option comparison
+            const std::string asset =
+                normalize_symbol(fields[7]);  // normalize for option comparison
             if (asset == symbol) {
-                // Security leg: Sum is the share count (signed), don't count as a separate trade
+                // Security leg: Sum is the share count (signed), don't count as
+                // a separate trade
                 const int diff = static_cast<int>(std::stof(fields[6]));
                 inst.add_instrument(symbol, 0.f, diff, false);
             } else {
-                // Cash leg: EUR equivalent is the money flow (negative=paid, positive=received)
+                // Cash leg: EUR equivalent is the money flow (negative=paid,
+                // positive=received)
                 const float pl = std::stof(fields[8]);
                 inst.add_instrument(symbol, pl, 0);
             }
@@ -86,5 +93,7 @@ int main(int argc, char* argv[]) {
     inst.print();
     std::cout << "Time reading the file: " << reading_duration << std::endl;
 
+    std::cout << "\nPress Enter to exit...";
+    std::cin.get();
     return 0;
 }

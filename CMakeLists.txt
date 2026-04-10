@@ -7,7 +7,7 @@
         OUTPUT_STRIP_TRAILING_WHITESPACE)
     endif()
 
-    set(PROJECT_VERSION 0.0.${PATCH_VERSION})
+    set(PROJECT_VERSION 1.0.${PATCH_VERSION})
 
     project(EXANTE_Report_Analyzer VERSION ${PROJECT_VERSION})
     set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;MinSizeRel" CACHE STRING "" FORCE)

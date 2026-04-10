@@ -72,6 +72,7 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 - [x] CMake build system
 - [x] Cross-platform (Linux / Windows)
 - [x] Compiler warnings treated as errors
+- [x] CI/CD workflow
 
 ---
 
