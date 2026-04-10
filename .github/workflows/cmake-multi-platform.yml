@@ -69,23 +69,46 @@ jobs:
 
 ######################################
 
-    - name: Install NSIS (Windows only)
-      if: ${{ matrix.os == 'windows-latest' }}
-      run: choco install nsis --no-progress -y
-
-    - name: Package
-      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --target package --config ${{ matrix.build_type }}
-
-    - name: Upload Artifact for Release on Windows
+    - name: Upload Artifact (Windows)
       if: ${{ matrix.os == 'windows-latest' }}
       uses: actions/upload-artifact@v4
       with:
-        name: package-windows-${{ matrix.build_type }}-${{ matrix.cpp_compiler }}
-        path: ${{ steps.strings.outputs.build-output-dir }}/EXANTE_Report_Analyzer-0.0.${{ github.run_number }}-win64.exe
+        name: EXANTE_Report_Analyzer-windows-${{ github.run_number }}
+        path: ${{ steps.strings.outputs.build-output-dir }}/bin/Release/EXANTE_Report_Analyzer.exe
 
-    - name: Upload Artifact for Release on Linux
+    - name: Upload Artifact (Linux)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v4
       with:
-        name: package-linux-${{ matrix.build_type }}-${{ matrix.cpp_compiler }}
-        path: ${{ steps.strings.outputs.build-output-dir }}/EXANTE_Report_Analyzer-0.0.${{ github.run_number }}-Linux.tar.gz
+        name: EXANTE_Report_Analyzer-linux-${{ github.run_number }}
+        path: ${{ steps.strings.outputs.build-output-dir }}/bin/EXANTE_Report_Analyzer
+
+jobs:
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download Windows artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: EXANTE_Report_Analyzer-windows-${{ github.run_number }}
+        path: artifacts/windows
+
+    - name: Download Linux artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: EXANTE_Report_Analyzer-linux-${{ github.run_number }}
+        path: artifacts/linux
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v0.0.${{ github.run_number }}
+        name: Release v0.0.${{ github.run_number }}
+        files: |
+          artifacts/windows/EXANTE_Report_Analyzer.exe
+          artifacts/linux/EXANTE_Report_Analyzer
