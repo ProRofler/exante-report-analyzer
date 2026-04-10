@@ -30,19 +30,23 @@
         message(FATAL_ERROR "No source files (*.cpp, *.cc, *.cxx) found in 'src/' — ensure your sources are placed under src/ or update CMakeLists.txt.")
     endif()
 
-    add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/src/report.csv
-        $<TARGET_FILE_DIR:${PROJECT_NAME}>/report.csv
-    )
+    if(EXISTS "${CMAKE_SOURCE_DIR}/src/report.csv")
+        add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_SOURCE_DIR}/src/report.csv
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/report.csv
+        )
+    endif()
 
-    add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/src/test_report.csv
-        $<TARGET_FILE_DIR:${PROJECT_NAME}>/test_report.csv
-    )
+    if(EXISTS "${CMAKE_SOURCE_DIR}/src/test_report.csv")
+        add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_SOURCE_DIR}/src/test_report.csv
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/test_report.csv
+        )
+    endif()
 
 
     # Ensure the project's include directory is visible to the target
