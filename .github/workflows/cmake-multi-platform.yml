@@ -47,13 +47,13 @@ jobs:
         
 ######################################
     - name: Configure CMake
-      run: >
-        cmake . -DPATCH_VERSION=${{ github.run_number }}
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}
+      run: |
+        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DPATCH_VERSION=${{ github.run_number }} \
+          -S ${{ github.workspace }}
 
 ######################################
     - name: Build
@@ -69,22 +69,18 @@ jobs:
 ######################################
 
     - name: Package
-      run: |
-        cd ${{ steps.strings.outputs.build-output-dir }}
-        mkdir package
-        cd package
-        cmake --build ${{ steps.strings.outputs.build-output-dir }} --target package --config Release
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --target package --config ${{ matrix.build_type }}
 
     - name: Upload Artifact for Release on Windows
       if: ${{ matrix.os == 'windows-latest' }}
       uses: actions/upload-artifact@v4
       with:
         name: package-windows-${{ matrix.build_type }}-${{ matrix.cpp_compiler }}
-        path: ${{ steps.strings.outputs.build-output-dir }}/CI-CD-0.0.${{ github.run_number }}-win64.exe
+        path: ${{ steps.strings.outputs.build-output-dir }}/EXANTE_Report_Analyzer-0.0.${{ github.run_number }}-win64.exe
 
     - name: Upload Artifact for Release on Linux
       if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v4
       with:
         name: package-linux-${{ matrix.build_type }}-${{ matrix.cpp_compiler }}
-        path: ${{ steps.strings.outputs.build-output-dir }}/CI-CD-0.0.${{ github.run_number }}-Linux.tar.gz
+        path: ${{ steps.strings.outputs.build-output-dir }}/EXANTE_Report_Analyzer-0.0.${{ github.run_number }}-Linux.tar.gz

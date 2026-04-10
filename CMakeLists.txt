@@ -1,9 +1,11 @@
     cmake_minimum_required(VERSION 3.22)
 
-    execute_process(
-    COMMAND git rev-list --count HEAD
-    OUTPUT_VARIABLE PATCH_VERSION
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if(NOT DEFINED PATCH_VERSION)
+        execute_process(
+        COMMAND git rev-list --count HEAD
+        OUTPUT_VARIABLE PATCH_VERSION
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    endif()
 
     set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
