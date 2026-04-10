@@ -69,6 +69,10 @@ jobs:
 
 ######################################
 
+    - name: Install NSIS (Windows only)
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: choco install nsis --no-progress -y
+
     - name: Package
       run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --target package --config ${{ matrix.build_type }}
 
