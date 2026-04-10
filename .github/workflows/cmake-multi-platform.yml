@@ -49,16 +49,16 @@ jobs:
     - name: Configure CMake
       shell: bash
       run: |
-        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
+        cmake -B "${{ steps.strings.outputs.build-output-dir }}" \
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
           -DPATCH_VERSION=${{ github.run_number }} \
-          -S ${{ github.workspace }}
+          -S "${{ github.workspace }}"
 
 ######################################
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }}
 
 
 
@@ -70,7 +70,7 @@ jobs:
 ######################################
 
     - name: Package
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --target package --config ${{ matrix.build_type }}
+      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --target package --config ${{ matrix.build_type }}
 
     - name: Upload Artifact for Release on Windows
       if: ${{ matrix.os == 'windows-latest' }}
