@@ -81,7 +81,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: EXANTE_Report_Analyzer-linux-${{ github.run_number }}
-        path: ${{ steps.strings.outputs.build-output-dir }}/bin/EXANTE_Report_Analyzer
+        path: ${{ steps.strings.outputs.build-output-dir }}/bin/Release/EXANTE_Report_Analyzer
 
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
