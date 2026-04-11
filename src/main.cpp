@@ -51,7 +51,9 @@ int main(int argc, char* argv[]) {
     account inst("test");
 
     // Skip all lines until the header row
+
     START_PROFILE(reading_duration);
+
     while (std::getline(report, line)) {
         if (line.find("Transaction ID") != std::string::npos) break;
     }
@@ -88,6 +90,7 @@ int main(int argc, char* argv[]) {
             inst.add_commission(symbol, commission);
         }
     }
+
     END_PROFILE(reading_duration);
 
     inst.print();

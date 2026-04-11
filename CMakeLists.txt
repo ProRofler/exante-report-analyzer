@@ -10,7 +10,7 @@
     set(PROJECT_VERSION 1.0.${PATCH_VERSION})
 
     project(EXANTE_Report_Analyzer VERSION ${PROJECT_VERSION})
-    set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;MinSizeRel" CACHE STRING "" FORCE)
+    set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
     message(STATUS "Building ${PROJECT_NAME} v${PROJECT_VERSION}")
 
@@ -19,6 +19,8 @@
     endif()
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin/Debug)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin/Release)
 
     # Collect headers and sources from conventional folders
     file(GLOB_RECURSE SAMPLE_HEADERS ${CMAKE_SOURCE_DIR}/include/*.h ${CMAKE_SOURCE_DIR}/include/*.hpp)
