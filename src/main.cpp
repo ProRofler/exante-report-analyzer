@@ -91,10 +91,9 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    END_PROFILE(reading_duration);
+    END_PROFILE(reading_duration, "Time reading the file:");
 
     inst.print();
-    std::cout << "Time reading the file: " << reading_duration << std::endl;
 
     std::cout << "\nPress Enter to exit...";
     std::cin.get();

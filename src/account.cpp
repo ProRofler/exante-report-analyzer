@@ -55,9 +55,8 @@ void account::print() const {
                   if (a_open != b_open) return b_open;  // closed before open
                   return a.second->pl > b.second->pl;   // higher pl first
               });
-    END_PROFILE(vec_copy);
+    END_PROFILE(vec_copy, "Vector copy\\sort time:");
 
-    std::cout << "Vector copy\\sort time: " << vec_copy << '\n';
 
     // Determine column widths dynamically
     unsigned col_ticker = 6;  // "Ticker"

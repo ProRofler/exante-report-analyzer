@@ -2,22 +2,21 @@
 #include <chrono>
 
 #ifndef NDEBUG
-#endif
 
-#define END_PROFILE(name)                                              \
+#define END_PROFILE(name, message)                                     \
     auto name##_end = std::chrono::steady_clock::now();                \
     auto name = std::chrono::duration_cast<std::chrono::milliseconds>( \
-        name##_end - name##_start)
+        name##_end - name##_start);                                    \
+    std::cout << (message) << ' ' << (name) << std::endl;
 
-#define START_PROFILE(name) auto name##_start = std::chrono::steady_clock::now()
+#define START_PROFILE(name) \
+    auto name##_start = std::chrono::steady_clock::now();
 
-#if 0
+#endif
 
 #ifdef NDEBUG
 
-#define END_PROFILE(name) (void)name
-#define START_PROFILE(name) (void)name
-
-#endif
+#define END_PROFILE(name, message) ;
+#define START_PROFILE(name) ;
 
 #endif
