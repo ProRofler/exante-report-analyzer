@@ -2,6 +2,45 @@
 
 A C++ application for parsing and analyzing EXANTE broker reports and generating concise summaries of trading activity, including best and worst trades, frequency statistics, and performance insights.
 
+## Usage
+
+### Windows
+
+#### Provide CSV file as an argument
+```bat
+EXANTE_Report_Analyzer.exe your_report.csv
+```
+### Windows
+
+#### Provide CSV file as an argument
+```bash
+./EXANTE_Report_Analyzer your_report.csv
+```
+
+#### Or just use default file name
+If a file named "report.csv" is in the same directory then it'll be read automatically
+
+## Known Issues
+
+- **UTF-8 encoding required**  
+  The program currently only supports CSV files encoded in UTF-8. Files using other encodings (e.g., Windows-1251, ISO-8859-1) may fail to parse or produce incorrect results.
+
+### Workarounds
+
+#### Windows (PowerShell)
+Convert a file to UTF-8:
+```powershell
+Get-Content input.csv | Set-Content -Encoding utf8 output.csv
+```
+
+Linux
+
+Using iconv:
+```bash
+iconv -f WINDOWS-1251 -t UTF-8 input.csv -o output.csv
+```
+Replace WINDOWS-1251 with the actual source encoding if different.
+
 ---
 
 ## Goals
@@ -76,17 +115,6 @@ A C++ application for parsing and analyzing EXANTE broker reports and generating
 
 ---
 
-## Documentation
-- [ ] Usage examples
-- [ ] Architecture overview
-
----
-
 ## Future Ideas
 - [ ] Visualization export (CSV for plotting)
 - [ ] Support for additional brokers
-
----
-
-## Status
-🚧 Work in progress
