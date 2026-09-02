@@ -1,3 +1,6 @@
+# Development of this tool has been discontinued. After new changes in brokerage arrangements I am moving away from using EXANTE and will not be issuing updates or offering support.
+
+
 # EXANTE Report Analyzer
 
 A C++ application for parsing and analyzing EXANTE broker reports and generating concise summaries of trading activity, including best and worst trades, frequency statistics, and performance insights.
